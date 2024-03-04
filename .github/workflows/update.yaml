@@ -27,7 +27,7 @@ jobs:
         git add docs/images/*.svg
 
     - name: Install SSH Client
-      uses: webfactory/ssh-agent@v0.4.1
+      uses: webfactory/ssh-agent@v0.9.0
       with:
         ssh-private-key: ${{ secrets.DEPLOY_KEY }}
 
