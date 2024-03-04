@@ -1,0 +1,63 @@
+name: update
+
+on:
+  schedule:
+  - cron: '42 0 * * 1'
+  workflow_dispatch:
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+
+    - name: Download icons
+      run: |
+        wget \
+          --quiet \
+          --output-document=google-cloud-icons.zip \
+          https://cloud.google.com/icons/files/google-cloud-icons.zip
+
+    - name: Unzip icons
+      run: |
+        mkdir -p docs/images
+        unzip -o -j google-cloud-icons.zip -d docs/images -x "*/*.png"
+        rm google-cloud-icons.zip
+        git add docs/images/*.svg
+
+    - name: Install SSH Client
+      uses: webfactory/ssh-agent@v0.4.1
+      with:
+        ssh-private-key: ${{ secrets.DEPLOY_KEY }}
+
+    - name: Prepare git and github
+      run: |
+        git config --global user.email "github-action@github.com"
+        git config --global user.name "Github Action"
+        git remote add deploy git@github.com:AwesomeLogos/google-cloud-icons.git
+        git checkout main
+
+    - name: Commit changes
+      run: |
+        if [ -n "$(git status --porcelain)" ]; then
+          git commit -am "Update icons"
+          git push deploy main
+        else
+          echo "No changes to commit"
+        fi
+
+    - name: Notify NodePing
+      env:
+        NODEPING_CHECKTOKEN: ${{ secrets.NODEPING_CHECKTOKEN }}
+        NODEPING_ID: ${{ secrets.NODEPING_ID }}
+      if: ${{ github.event_name == 'schedule' }}
+      run: |
+        if [ "${NODEPING_CHECKTOKEN}" != "" ] && [ "${NODEPING_ID}" != "" ]; then
+          curl \
+              --silent \
+              --request POST \
+              "https://push.nodeping.com/v1?id=${NODEPING_ID}&checktoken=${NODEPING_CHECKTOKEN}"
+        else
+          echo "WARNING: nodeping not configured for update-data"
+        fi
