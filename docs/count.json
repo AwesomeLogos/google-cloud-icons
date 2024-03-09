@@ -1,9 +1,0 @@
----
-title: Count for README badge from shields.io
-noindex: true
-layout: none
----
-{%- assign image_files = site.static_files | where: "extname", ".svg" | where_exp: "item", "item.path != '/favicon.svg'" | sort: "basename" -%}
-{
-    "count": {{ image_files | size }}
-}

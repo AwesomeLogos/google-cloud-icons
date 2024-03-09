@@ -1,14 +1,10 @@
 ---
-title: robots.txt
 layout: none
-noindex: true
 ---
 #
-# robots.txt for {{site.title}}
+# robots.txt for {{site.production_url | slice: 8, 99}}
 #
-# all content is indexable
-#
-User-Agent: *
-Allow: /
 
-Sitemap: {{site.production_url}}/sitemap.xml
+User-Agent: *
+Disallow: /honeypot.txt
+Allow: /

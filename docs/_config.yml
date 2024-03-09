@@ -5,17 +5,15 @@
 exclude: [ "CNAME", "**/*_src*" ]
 permalink: /blog/:year/:month/:day/:title/index.:output_ext
 production_url: https://gcp-icons.vectorlogo.zone
-title: My Vector Icons
+title: Google Cloud Product Icons
 markdown: kramdown
 plugins:
   - jekyll-redirect-from
 redirect_from:
   json: false
 theme: null
-defaults:
-  -
-    scope:
-      path: "" # an empty string here means all files in the project
-    values:
-      layout: "default"
-
+links:
+  - name: "Download original"
+    url: "https://cloud.google.com/icons"
+  - name: "Report an issue"
+    url: "https://github.com/AwesomeLogos/gcp-icons/issues"

@@ -1,63 +1,36 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="utf-8">
-    <title>{% if page.h1 %}{{ page.title }}{% else %}{{ page.title }} - {{site.title}}{% endif %}</title>
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <title>{{site.title}}</title>
     <meta name="referrer" content="unsafe-url" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css">
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css" />
     <style>
-        :root {
-            --block-spacing-vertical: 0;
-            /* LATER: why doesn't this work??? */
-        }
 
-        body>main {
-            padding-top: 1em;
+        footer {
+            margin-top: 0;
+            padding-top: 0;
+            text-align: center;
         }
-
-        h1 {
-            margin-bottom: 0.25em;
-            font-size: 3rem;
-            font-weight: 400;
-        }
-
-        h2 {
-            font-size: 2.5rem;
-            font-weight: 400;
-            margin-top: 0.75em;
-            margin-bottom: 0.25em;
-        }
-
-        h3 {
-            margin-top: 0.75em;
-            margin-bottom: 0.25em;
-        }
-
-        p {
-            margin-bottom: 0.75em;
-        }
-
     </style>
-
 </head>
-
 <body>
     <main class="container">
         <h1>
             <img alt="logo" src="/favicon.svg" style="height:1.5em;vertical-align:top;" />&nbsp;
-            {% if page.h1 %}{{ page.h1 }}{% else %}{{ page.title }}{% endif %}
+            {{site.title}}
         </h1>
         <hr/>
+        <p><small>
+    {%- for link in site.links %}
+    {%- if forloop.index0 > 0 %} | {% endif %}
+            <a href="{{link.url}}" title="{{link.name}}">{{link.name}}</a>
+    {%- endfor %}
+        </small></p>
 {{content}}
         <hr/>
-        <p>
-            <a href="https://cloud.google.com/icons?hl=en" title="Google Cloud Icons"><img style="height:1em;vertical-align: text-top;padding-right:0.5em;" src="https://www.vectorlogo.zone/logos/google_cloud/google_cloud-icon.svg" alt="Google Cloud">Download all</a>
-            <a href="https://github.com/AwesomeLogos/google-cloud-icons" title="Source"><img style="height:1em;vertical-align: text-top;padding-right:0.5em;" src="https://www.vectorlogo.zone/logos/github/github-tile.svg" alt="GitHub">Website source</a>
-        </p>
     </main>
 </body>
-
 </html>
